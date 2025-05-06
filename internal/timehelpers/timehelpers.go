@@ -25,6 +25,7 @@ func ToTime(s string) *FullTime {
 	return &FullTime{parsedTime}
 }
 
+// Перевод из миллисекунд в строку формата HH:MM:SS.sss
 func MilliToTime(val uint32) string {
 	hours := val / 3600000
 	val -= hours * 3600000
@@ -35,6 +36,7 @@ func MilliToTime(val uint32) string {
 	return fmt.Sprintf("%02d:%02d:%02d.%03d", hours, minutes, seconds, val)
 }
 
+// Форматирование вывода скорости
 func SpeedToTime(val float64) string {
 	return fmt.Sprintf("%.3f", math.Trunc(val*1000)/1000)
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/timehelpers"
 )
 
+// Предобработка данных, отдельно будет функция вывода, отдельно предпосчет всех скоростей и сохранение в нужном формате
 func preprocessingData(resData *[]competitor.CompetitorResult, settings *competitionsettings.CompetitionValues) {
 	for key, value := range competitor.AllCompetitors {
 		newRes := competitor.NewCompetitorResult(value.AllTime, value.ExtraInfo, key)
@@ -49,6 +50,7 @@ func preprocessingData(resData *[]competitor.CompetitorResult, settings *competi
 	}
 }
 
+// Конвертация слайсов времени, потраченного на круг и средней скорости за круг в одну строку
 func valsToTuples(timeVals []string, speedVals []string) string {
 	result := ""
 	for i := 0; i < len(timeVals); i++ {
@@ -68,6 +70,7 @@ func valsToTuples(timeVals []string, speedVals []string) string {
 	return result
 }
 
+// Запись итоговых значений в результирующий файл
 func writeResults(resData *[]competitor.CompetitorResult, out *os.File) {
 	for i := 0; i < len(*resData); i++ {
 		var firstArg string

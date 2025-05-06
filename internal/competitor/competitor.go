@@ -23,6 +23,7 @@ func NewCompetitor() *Competitor {
 	return &Competitor{}
 }
 
+// Структура для хранения данных, которые будут использоваться при выводе в результирующую таблицу
 type CompetitorResult struct {
 	AllTime      uint32
 	ID           int
