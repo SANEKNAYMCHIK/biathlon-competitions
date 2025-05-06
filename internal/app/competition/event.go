@@ -41,7 +41,8 @@ func parseLog(line string) (Event, error) {
 		CompetitorID: competitorID,
 	}
 	if len(parts) > 3 {
-		event.Extra = parts[3]
+		extraStr := strings.Join(parts[3:], " ")
+		event.Extra = extraStr
 	}
 	return event, nil
 }

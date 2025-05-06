@@ -1,6 +1,8 @@
 package competition
 
 import (
+	"fmt"
+
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/competitionsettings"
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/competitor"
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/timehelpers"
@@ -47,7 +49,9 @@ func CheckLog(eventVals Event, settings *competitionsettings.CompetitionValues) 
 				CompetitorID: eventVals.CompetitorID,
 			}
 		}
-	default:
+	case 11:
+		fmt.Println("================================")
+		fmt.Println(eventVals.EventID, competitor.AllCompetitors[eventVals.CompetitorID].ExtraInfo, competitor.AllCompetitors[eventVals.CompetitorID].AllTime, eventVals.CompetitorID)
 		competitor.AllCompetitors[eventVals.CompetitorID].ExtraInfo = "NotFinished"
 	}
 	return nil

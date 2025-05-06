@@ -56,7 +56,7 @@ func Battle(settings *competitionsettings.CompetitionValues, eventsName string, 
 	if err != nil {
 		log.Fatal(err)
 	}
-	res, err := os.Create(outputName)
+	res, err := os.Create(resultName)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -88,5 +88,5 @@ func Battle(settings *competitionsettings.CompetitionValues, eventsName string, 
 		}
 		return resData[i].ID < resData[j].ID
 	})
-	writeResults(&resData)
+	writeResults(&resData, res)
 }

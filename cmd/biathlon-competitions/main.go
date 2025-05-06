@@ -8,8 +8,8 @@ import (
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/competitionsettings"
 )
 
-const configName = "config2.json"
-const eventsName = "events2"
+const configName = "config.json"
+const eventsName = "events"
 const outputName = "output"
 const resultName = "resulting table"
 
