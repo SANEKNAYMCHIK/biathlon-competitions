@@ -5,10 +5,12 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/timehelpers"
 )
 
 type Event struct {
-	time.Time
+	CurrentTime  timehelpers.FullTime
 	EventID      int
 	CompetitorID int
 	Extra        any
@@ -19,6 +21,7 @@ func parseLog(line string) (Event, error) {
 	if len(parts) < 3 {
 		return Event{}, fmt.Errorf("Not enough parameteres per line")
 	}
+	// tStr := parts[0]
 	t, err := time.Parse(time.TimeOnly, parts[0][1:len(parts[0])-1])
 	if err != nil {
 		return Event{}, fmt.Errorf("Error of parsing data: %v", err)
@@ -32,21 +35,16 @@ func parseLog(line string) (Event, error) {
 		return Event{}, fmt.Errorf("Error of parsing competitorID: %v", err)
 	}
 	event := Event{
-		Time:         t,
+		CurrentTime:  timehelpers.FullTime{t},
 		EventID:      eventID,
 		CompetitorID: competitorID,
 	}
 	if len(parts) > 3 {
-		extraStr := strings.Join(parts[3:], " ")
-		if extraInt, err := strconv.Atoi(extraStr); err == nil {
+		if extraInt, err := strconv.Atoi(parts[3]); err == nil {
 			event.Extra = extraInt
 			return event, nil
 		}
-		if extraTime, err := time.Parse(time.TimeOnly, extraStr); err == nil {
-			event.Extra = extraTime
-			return event, nil
-		}
-		event.Extra = extraStr
+		event.Extra = parts[3]
 	}
 	return event, nil
 }

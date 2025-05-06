@@ -10,19 +10,34 @@ import (
 )
 
 var actions = map[int]string{
-	1:  "The competitor(%v) registered",
-	2:  "The start time was set by a draw to %v",
-	3:  "The competitor(%v) is on the start line",
-	4:  "The competitor(%v) has started",
-	5:  "The competitor(%v) is on the firing range(%v)",
-	6:  "The target(%v) has been hit by competitor(%v)",
-	7:  "The competitor(%v) left the firing range",
-	8:  "The competitor(%v) entered the penalty laps",
-	9:  "The competitor(%v) left the penalty laps",
-	10: "The competitor(%v) ended the main lap",
-	11: "The competitor(%v) can`t continue: %v",
-	32: "The competitor(%v) is disqualified",
-	33: "The competitor(%v) has finished",
+	1:  "%s The competitor(%v) registered\n",
+	2:  "%s The start time for the competitor(%v) was set by a draw to %v\n",
+	3:  "%s The competitor(%v) is on the start line\n",
+	4:  "%s The competitor(%v) has started\n",
+	5:  "%s The competitor(%v) is on the firing range(%v)\n",
+	6:  "%s The target(%v) has been hit by competitor(%v)\n",
+	7:  "%s The competitor(%v) left the firing range\n",
+	8:  "%s The competitor(%v) entered the penalty laps\n",
+	9:  "%s The competitor(%v) left the penalty laps\n",
+	10: "%s The competitor(%v) ended the main lap\n",
+	11: "%s The competitor(%v) can`t continue: %v\n",
+	32: "%s The competitor(%v) is disqualified\n",
+	33: "%s The competitor(%v) has finished\n",
+}
+
+func writeOutputLog(eventVals *Event, out *os.File) {
+	if eventVals.Extra != nil {
+		if eventVals.EventID == 6 {
+			fmt.Fprintf(out, actions[eventVals.EventID], eventVals.CurrentTime,
+				eventVals.Extra, eventVals.CompetitorID)
+		} else {
+			fmt.Fprintf(out, actions[eventVals.EventID], eventVals.CurrentTime,
+				eventVals.CompetitorID, eventVals.Extra)
+		}
+	} else {
+		fmt.Fprintf(out, actions[eventVals.EventID], eventVals.CurrentTime,
+			eventVals.CompetitorID)
+	}
 }
 
 func Battle(settings *competitionsettings.CompetitionValues, eventsName string, outputName string) {
@@ -45,11 +60,7 @@ func Battle(settings *competitionsettings.CompetitionValues, eventsName string, 
 			fmt.Printf("Incorrect log: %s\n", err)
 			continue
 		}
-		fmt.Println(eventVals.EventID)
-		fmt.Println(eventVals.EventID)
-		fmt.Println(eventVals.CompetitorID)
-		fmt.Println(eventVals.Extra)
-		fmt.Println()
+		writeOutputLog(&eventVals, out)
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Printf("Invalid input: %s", err)

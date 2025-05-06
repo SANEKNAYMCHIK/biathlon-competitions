@@ -1,26 +1,12 @@
 package competitionsettings
 
-import "time"
-
-type FullTime struct {
-	time.Time
-}
+import "github.com/SANEKNAYMCHIK/biathlon-competitions/internal/timehelpers"
 
 type CompetitionValues struct {
-	Laps        int      `json:"laps"`
-	LapLen      int      `json:"lapLen"`
-	PenaltyLen  int      `json:"penaltyLen"`
-	FiringLines int      `json:"firingLines"`
-	Start       FullTime `json:"start"`
-	StartDelta  FullTime `json:"startDelta"`
-}
-
-func (t *FullTime) UnmarshalJSON(data []byte) error {
-	strTime := string(data[1 : len(data)-1])
-	parsedTime, err := time.Parse(time.TimeOnly, strTime)
-	if err != nil {
-		return err
-	}
-	t.Time = parsedTime
-	return nil
+	Laps        int                  `json:"laps"`
+	LapLen      int                  `json:"lapLen"`
+	PenaltyLen  int                  `json:"penaltyLen"`
+	FiringLines int                  `json:"firingLines"`
+	Start       timehelpers.FullTime `json:"start"`
+	StartDelta  timehelpers.FullTime `json:"startDelta"`
 }
