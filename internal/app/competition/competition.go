@@ -26,7 +26,7 @@ var actions = map[int]string{
 }
 
 func writeOutputLog(eventVals *Event, out *os.File) {
-	if eventVals.Extra != nil {
+	if eventVals.Extra != "" {
 		if eventVals.EventID == 6 {
 			fmt.Fprintf(out, actions[eventVals.EventID], eventVals.CurrentTime,
 				eventVals.Extra, eventVals.CompetitorID)
@@ -61,6 +61,10 @@ func Battle(settings *competitionsettings.CompetitionValues, eventsName string, 
 			continue
 		}
 		writeOutputLog(&eventVals, out)
+		response := CheckLog(eventVals, settings)
+		if response != nil {
+			writeOutputLog(response, out)
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Printf("Invalid input: %s", err)

@@ -13,7 +13,7 @@ type Event struct {
 	CurrentTime  timehelpers.FullTime
 	EventID      int
 	CompetitorID int
-	Extra        any
+	Extra        string
 }
 
 func parseLog(line string) (Event, error) {
@@ -40,10 +40,6 @@ func parseLog(line string) (Event, error) {
 		CompetitorID: competitorID,
 	}
 	if len(parts) > 3 {
-		if extraInt, err := strconv.Atoi(parts[3]); err == nil {
-			event.Extra = extraInt
-			return event, nil
-		}
 		event.Extra = parts[3]
 	}
 	return event, nil
