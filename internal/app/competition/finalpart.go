@@ -13,7 +13,6 @@ import (
 func preprocessingData(resData *[]competitor.CompetitorResult, settings *competitionsettings.CompetitionValues) {
 	for key, value := range competitor.AllCompetitors {
 		newRes := competitor.NewCompetitorResult(value.AllTime, value.ExtraInfo, key)
-		fmt.Println(newRes.ExtraInfo, value.ExtraInfo)
 		if newRes.ExtraInfo != "" {
 			newRes.AllTime = math.MaxUint32
 		}
@@ -26,7 +25,6 @@ func preprocessingData(resData *[]competitor.CompetitorResult, settings *competi
 			lapsSpeed[i] = ""
 		}
 		for i := 0; i < len(value.Laps); i++ {
-			fmt.Println(value.Laps[i])
 			var speedPerLap float64
 			if value.Laps[i] != 0 {
 				speedPerLap = float64(settings.LapLen*1000) / float64(value.Laps[i])
@@ -35,23 +33,18 @@ func preprocessingData(resData *[]competitor.CompetitorResult, settings *competi
 			}
 			lapsTime[i] = timehelpers.MilliToTime(value.Laps[i])
 			lapsSpeed[i] = timehelpers.SpeedToTime(speedPerLap)
-			fmt.Println(lapsTime[i])
-			fmt.Println(lapsSpeed[i])
 		}
 		newRes.LapsTime = lapsTime
 		newRes.LapsSpeed = lapsSpeed
 		newRes.PenaltyTime = timehelpers.MilliToTime(value.PenaltyTime)
-		fmt.Println(newRes.PenaltyTime)
 		var penaltySpeed float64
 		if value.PenaltyTime != 0 {
-			penaltySpeed = float64(value.PenaltyAmount*uint32(settings.PenaltyLen)*1000) / float64(value.PenaltyTime*1000)
+			penaltySpeed = float64(value.PenaltyAmount*uint32(settings.PenaltyLen)*1000) / float64(value.PenaltyTime)
 		} else {
 			penaltySpeed = 0.000
 		}
 		newRes.PenaltySpeed = timehelpers.SpeedToTime(penaltySpeed)
-		fmt.Println(newRes.PenaltySpeed)
 		newRes.ShotsResult = fmt.Sprintf("%d/%d", value.Hits, value.Shots)
-		fmt.Println(newRes.ShotsResult)
 		*resData = append(*resData, *newRes)
 	}
 }
@@ -83,7 +76,6 @@ func writeResults(resData *[]competitor.CompetitorResult, out *os.File) {
 		} else {
 			firstArg = timehelpers.MilliToTime((*resData)[i].AllTime)
 		}
-		fmt.Println(firstArg)
 		dataPerLaps := valsToTuples((*resData)[i].LapsTime, (*resData)[i].LapsSpeed)
 		fmt.Fprintf(out, "[%s] %d [%s] {%s, %s} %s\n",
 			firstArg, (*resData)[i].ID, dataPerLaps, (*resData)[i].PenaltyTime,
