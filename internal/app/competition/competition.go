@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/competitionsettings"
+	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/competitor"
 )
 
 // Шаблоны ответов на события
@@ -54,8 +56,13 @@ func Battle(settings *competitionsettings.CompetitionValues, eventsName string, 
 	if err != nil {
 		log.Fatal(err)
 	}
+	res, err := os.Create(outputName)
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer file.Close()
 	defer out.Close()
+	defer res.Close()
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -70,8 +77,16 @@ func Battle(settings *competitionsettings.CompetitionValues, eventsName string, 
 			writeOutputLog(response, out)
 		}
 	}
-
 	if err := scanner.Err(); err != nil {
 		fmt.Printf("Invalid input: %s", err)
 	}
+	var resData []competitor.CompetitorResult
+	preprocessingData(&resData, settings)
+	sort.Slice(resData, func(i, j int) bool {
+		if resData[i].AllTime != resData[j].AllTime {
+			return resData[i].AllTime < resData[j].AllTime
+		}
+		return resData[i].ID < resData[j].ID
+	})
+	writeResults(&resData)
 }

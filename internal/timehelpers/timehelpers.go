@@ -2,6 +2,7 @@ package timehelpers
 
 import (
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -22,6 +23,20 @@ func ToTime(s string) *FullTime {
 		panic(err)
 	}
 	return &FullTime{parsedTime}
+}
+
+func MilliToTime(val uint32) string {
+	hours := val / 3600000
+	val -= hours * 3600000
+	minutes := val / 60000
+	val -= minutes * 60000
+	seconds := val / 1000
+	val -= seconds * 1000
+	return fmt.Sprintf("%02d:%02d:%02d.%03d", hours, minutes, seconds, val)
+}
+
+func SpeedToTime(val float64) string {
+	return fmt.Sprintf("%.3f", math.Trunc(val*1000)/1000)
 }
 
 // Метод, переводящий FullTime в миллисекунды

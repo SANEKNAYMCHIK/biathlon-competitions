@@ -16,7 +16,7 @@ func CheckLog(eventVals Event, settings *competitionsettings.CompetitionValues) 
 		competitor.AllCompetitors[eventVals.CompetitorID].ScheduledStart = timehelpers.ToTime(eventVals.Extra).ToMilli()
 	case 4:
 		competitor.AllCompetitors[eventVals.CompetitorID].ActualStart = eventVals.CurrentTime.ToMilli()
-		competitor.AllCompetitors[eventVals.CompetitorID].PrevStart = eventVals.CurrentTime.ToMilli()
+		competitor.AllCompetitors[eventVals.CompetitorID].PrevStart = competitor.AllCompetitors[eventVals.CompetitorID].ScheduledStart
 		if (competitor.AllCompetitors[eventVals.CompetitorID].ActualStart - competitor.AllCompetitors[eventVals.CompetitorID].ScheduledStart) > settings.StartDelta.ToMilli() {
 			competitor.AllCompetitors[eventVals.CompetitorID].ExtraInfo = "NotStarted"
 			return &Event{

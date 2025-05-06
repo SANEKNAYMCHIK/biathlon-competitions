@@ -22,3 +22,22 @@ type Competitor struct {
 func NewCompetitor() *Competitor {
 	return &Competitor{}
 }
+
+type CompetitorResult struct {
+	AllTime      uint32
+	ID           int
+	ExtraInfo    string
+	LapsTime     []string
+	LapsSpeed    []string
+	PenaltyTime  string
+	PenaltySpeed string
+	ShotsResult  string
+}
+
+func NewCompetitorResult(allTime uint32, extraInfo string, id int) *CompetitorResult {
+	return &CompetitorResult{
+		AllTime:   allTime,
+		ID:        id,
+		ExtraInfo: extraInfo,
+	}
+}
