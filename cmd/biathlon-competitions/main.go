@@ -2,14 +2,18 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 
+	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/app/competition"
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/competitionsettings"
 )
 
+const configName = "config.json"
+const eventsName = "events"
+const outputName = "output"
+
 func main() {
-	data, err := os.ReadFile("config.json")
+	data, err := os.ReadFile(configName)
 	if err != nil {
 		panic(err)
 	}
@@ -18,12 +22,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(settings.Laps)
-	fmt.Println(settings.LapLen)
-	fmt.Println(settings.PenaltyLen)
-	fmt.Println(settings.FiringLines)
-	fmt.Println(settings.Start.Hour())
-	fmt.Println(settings.Start.Nanosecond() / 1e6)
-	fmt.Println(settings.StartDelta.Minute())
-	fmt.Println(settings.StartDelta.Nanosecond() / 1e6)
+	competition.Battle(&settings, eventsName, outputName)
 }
