@@ -6,6 +6,8 @@ import (
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/timehelpers"
 )
 
+// Обработка входящих событий
+// Имитация соревнования, запись всех необходимых значений в структуру Competitor в map по ID участника
 func CheckLog(eventVals Event, settings *competitionsettings.CompetitionValues) *Event {
 	switch eventVals.EventID {
 	case 1:

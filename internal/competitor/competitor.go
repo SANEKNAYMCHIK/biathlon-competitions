@@ -1,7 +1,9 @@
 package competitor
 
+// Хранение характеристик участников по их ID
 var AllCompetitors map[int]*Competitor = make(map[int]*Competitor)
 
+// Структура, хранящая характеристики участника
 type Competitor struct {
 	ScheduledStart uint32
 	ActualStart    uint32

@@ -9,6 +9,7 @@ import (
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/competitionsettings"
 )
 
+// Шаблоны ответов на события
 var actions = map[int]string{
 	1:  "%s The competitor(%v) registered\n",
 	2:  "%s The start time for the competitor(%v) was set by a draw to %v\n",
@@ -25,6 +26,7 @@ var actions = map[int]string{
 	33: "%s The competitor(%v) has finished\n",
 }
 
+// Вывод шаблонных ответов в форматированном варианте
 func writeOutputLog(eventVals *Event, out *os.File) {
 	if eventVals.Extra != "" {
 		if eventVals.EventID == 6 {
@@ -40,7 +42,9 @@ func writeOutputLog(eventVals *Event, out *os.File) {
 	}
 }
 
-func Battle(settings *competitionsettings.CompetitionValues, eventsName string, outputName string) {
+// Чтение логов соревнования, вывод в обработанном формате
+// Запись необходимых значений, вывод исходящих событий, результатов
+func Battle(settings *competitionsettings.CompetitionValues, eventsName string, outputName string, resultName string) {
 	file, err := os.Open(eventsName)
 	if err != nil {
 		log.Fatal(err)
@@ -66,6 +70,7 @@ func Battle(settings *competitionsettings.CompetitionValues, eventsName string, 
 			writeOutputLog(response, out)
 		}
 	}
+
 	if err := scanner.Err(); err != nil {
 		fmt.Printf("Invalid input: %s", err)
 	}

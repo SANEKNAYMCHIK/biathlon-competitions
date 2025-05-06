@@ -9,6 +9,7 @@ import (
 	"github.com/SANEKNAYMCHIK/biathlon-competitions/internal/timehelpers"
 )
 
+// Структура, хранящая в себе все нужные значения из входящих событий
 type Event struct {
 	CurrentTime  timehelpers.FullTime
 	EventID      int
@@ -16,12 +17,12 @@ type Event struct {
 	Extra        string
 }
 
+// Парсинг входящих логов и возврат структуры Event с записанными данными
 func parseLog(line string) (Event, error) {
 	parts := strings.Fields(line)
 	if len(parts) < 3 {
 		return Event{}, fmt.Errorf("Not enough parameteres per line")
 	}
-	// tStr := parts[0]
 	t, err := time.Parse(time.TimeOnly, parts[0][1:len(parts[0])-1])
 	if err != nil {
 		return Event{}, fmt.Errorf("Error of parsing data: %v", err)

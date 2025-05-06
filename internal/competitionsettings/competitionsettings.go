@@ -2,6 +2,7 @@ package competitionsettings
 
 import "github.com/SANEKNAYMCHIK/biathlon-competitions/internal/timehelpers"
 
+// Структура, хранящая характеристики соревнования
 type CompetitionValues struct {
 	Laps        int                  `json:"laps"`
 	LapLen      int                  `json:"lapLen"`
